@@ -1,0 +1,53 @@
+import subprocess
+import chardet
+
+"""Задание 3"""
+LIST_3 = ['attribute', 'класс', 'функция', 'type']
+
+for i in LIST_3:
+    try:
+        is_bytes = i.encode('ascii')
+        print(is_bytes, 'можно')
+
+    except:
+        print(i, 'нельзя')
+
+
+"""Задание 4"""
+
+LIST_4 = ['разработка', 'администрирование', 'protocol', 'standard']
+for i in LIST_4:
+    to_byte = i.encode('utf-8')
+    print('to_byte:', to_byte)
+    to_str = to_byte.decode('utf-8')
+    print('to_str:', to_str)
+    print()
+
+"""Задание 6 """
+
+file = open('test_file.txt', 'w')
+file.write('сетевое программирование\n')
+file.write('сокет\n')
+file.write('декоратор\n')
+file.close()
+print('кодировка созданного файла: ', file.encoding)
+
+with open('test_file.txt', 'r', encoding='utf-8') as file:
+    for line in file:
+        print(line, line.encode())
+
+"""Задание 5 """
+
+ARGS = ['ping', 'youtube.com']
+YA_PING = subprocess.Popen(ARGS, stdout=subprocess.PIPE)
+for line in YA_PING.stdout:
+    result = chardet.detect(line)
+    line = line.decode(result['encoding']).encode('utf-8')
+    print(line.decode('utf-8'))
+
+ARGS = ['ping', 'yandex.ru']
+YA_PING = subprocess.Popen(ARGS, stdout=subprocess.PIPE)
+for line in YA_PING.stdout:
+    result = chardet.detect(line)
+    line = line.decode(result['encoding']).encode('utf-8')
+    print(line.decode('utf-8'))
