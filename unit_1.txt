@@ -1,0 +1,45 @@
+import csv
+import re
+
+''' get_data_file() - возвращает словарь. На вход получает - название файла'''
+
+
+def get_data_file(v_file):
+    dict_info = {}
+    with open(v_file, 'r') as f:
+        for line in f:
+            for j in INFO_TOTAL:
+                if re.match(j, line):
+                    dict_info[j] = (line.split(':')[1]).strip()
+    '''если нет требуемого значения в каком-то файле'''
+    for i in INFO_TOTAL:
+        if i not in dict_info.keys():
+            # print('такого ключа нет')
+            dict_info[i] = ''
+    return dict_info
+
+'''write_to_csv() - пишет в файл-отчет'''
+
+
+def write_to_csv():
+    with open('main_data.csv', 'w', encoding='utf-8') as f:
+        pass
+    ''' range(1,100) - число должно быть не меньше количества характеристик
+        в отчете. Сейчас 4 '''
+    for i, j in zip(LIST_FILE, range(1, 100)):
+        with open('main_data.csv', 'a', encoding='utf-8') as f:
+            d = get_data_file(i)
+            print(i, j)
+            # для заголовка
+            if j == 1:
+                F_WRITER = csv.writer(f)
+                F_WRITER.writerow(list(d.keys()))
+            F_WRITER = csv.writer(f)
+            F_WRITER.writerow(list(d.values()))
+# характеристики итогового отчета
+INFO_TOTAL = ['Изготовитель системы', 'Название ОС', 'Код продукта', 'Тип системы', 'Пустой столбец']
+# файлы для построения отчета
+LIST_FILE = ['info_1.txt',  'info_2.txt', 'info_3.txt']
+
+if __name__ == '__main__':
+    write_to_csv()

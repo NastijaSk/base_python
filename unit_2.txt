@@ -1,0 +1,27 @@
+import json
+
+
+def write_order_to_json(item, quantity, price, buyer, date):
+    dict_order = {}
+    dict_order['item'] = item
+    dict_order['quantity'] = quantity
+    dict_order['price'] = price
+    dict_order['buyer'] = buyer
+    dict_order['date'] = date
+
+    with open('orders.json', 'r') as f_n:
+        OBJ = json.load(f_n)
+        print(type(OBJ))
+        print(OBJ.items())
+        for key, val in OBJ.items():
+            print(key, val)
+            if key == 'orders':
+                val.append(dict_order)
+            print(OBJ)
+    with open('orders.json', 'w') as f_n:
+        json.dump(OBJ, f_n, sort_keys=True, indent=4)
+
+if __name__ == '__main__':
+    write_order_to_json('PC1', '2', '20000.0', 'User1', '2019-10-10')
+    write_order_to_json('PC2', 10, 20000.0, 'User2', '2019-10-10')
+    write_order_to_json('PC4', [1, 2, 3], 5.0, 'User3', '2019-11-11')
